@@ -4,13 +4,24 @@ import joblib
 import warnings
 warnings.filterwarnings('ignore')
 import os
-from PIL import Image
+import streamlit as st
+
+image_path = "ads_logo.png"
+if os.path.exists(image_path):
+    st.image(image_path, caption="Ad Click Prediction", use_column_width=True)
+else:
+    st.image("https://example.com/path-to-image/ads_logo.png", caption="Ad Click Prediction", use_column_width=True)
+
 
 # Page Settings
 st.set_page_config(page_title="Ad Click Prediction App", layout="centered", page_icon="📈")
 
 # App Header
-st.image("/Customer_predection/ads_logo.png", caption="Ad Click Prediction",use_container_width=True)
+image_path = "ads_logo.png"
+if os.path.exists(image_path):
+    st.image(image_path, caption="Ad Click Prediction", use_container_width=True)
+else:
+    st.image("https://media.istockphoto.com/id/1699842032/photo/online-shopping-e-commerce-concept-woman-using-mobile-phone-and-laptop-computer-for-online.webp?a=1&b=1&s=612x612&w=0&k=20&c=M_f7m5KkrCB6Tj7R6ShPOqWYWIuZqUCQTPgWPzjsJpI=.png", caption="Ad Click Prediction", use_container_width=True)
 st.markdown("# 📊 Ad Click Prediction")
 st.text("Predict whether a user will click on the next ad based on their data.")
 

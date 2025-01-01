@@ -10,7 +10,7 @@ from PIL import Image
 st.set_page_config(page_title="Ad Click Prediction App", layout="centered", page_icon="📈")
 
 # App Header
-st.image("ads_logo.png", caption="Ad Click Prediction",use_column_width=True)
+st.image("https://github.com/SeifEldeen259/Customer_predection/blob/main/Customer_predection/ads.png?raw=true", caption="Ad Click Prediction",use_column_width=True)
 st.markdown("# 📊 Ad Click Prediction")
 st.text("Predict whether a user will click on the next ad based on their data.")
 

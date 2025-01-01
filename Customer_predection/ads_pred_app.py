@@ -24,7 +24,7 @@ def findAgeGroup(Age):
         return 3
 
 # Sidebar Inputs
-st.sidebar.image('ads.png')
+st.sidebar.image("https://github.com/SeifEldeen259/Customer_predection/blob/main/Customer_predection/ads.png?raw=true")
 st.sidebar.header("User Inputs")
 daily_time_spent_on_site = st.sidebar.slider('Daily Time Spent on Site (minutes):', 0.0, 500.0, step=0.1, value=60.0)
 age = st.sidebar.slider('Age:', 10, 100, step=1, value=30, help="Enter the user's age in years.")

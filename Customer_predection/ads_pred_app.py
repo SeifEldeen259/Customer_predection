@@ -9,11 +9,17 @@ import os
 st.set_page_config(page_title="Ad Click Prediction App", layout="centered", page_icon="📈")
 
 # App Header
+# Debug current directory and file existence
+st.write("Current Directory:", os.getcwd())
+st.write("File Exists:", os.path.exists("ads_logo.png"))
+
+# Attempt to load the image
 image_path = "ads_logo.png"
 if os.path.exists(image_path):
-    st.image(image_path, caption="Ad Click Prediction", use_container_width=True)
+    st.image(image_path, caption="Ad Click Prediction", use_column_width=True)
 else:
-    st.image("https://media.istockphoto.com/id/1699842032/photo/online-shopping-e-commerce-concept-woman-using-mobile-phone-and-laptop-computer-for-online.web.png", caption="Ad Click Prediction", use_container_width=True)
+    st.warning("Image not found. Using a placeholder.")
+    st.image("https://via.placeholder.com/500x300?text=Ad+Click+Prediction", caption="Ad Click Prediction")
 st.markdown("# 📊 Ad Click Prediction")
 st.text("Predict whether a user will click on the next ad based on their data.")
 

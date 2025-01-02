@@ -41,7 +41,7 @@ if st.sidebar.button("Predict"):
     encoded_age_group = findAgeGroup(age)
 
     # Define model path
-    model_path = 'ad_model.pkl'  # Use the full absolute path to the file
+    model_path = 'Customer_predection/Customer_predection/ad_model.pkl'  # Use the full absolute path to the file
     
     try:
         # Load the model

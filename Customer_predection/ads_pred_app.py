@@ -34,50 +34,38 @@ area_income = st.sidebar.number_input('Area Income (average income of the user�
 daily_internet_usage = st.sidebar.slider('Daily Internet Usage (minutes):', 0.0, 1000.0, step=0.1, value=200.0)
 gender = st.sidebar.radio('Gender:', ['Male', 'Female'])
 
-# Predict Button
+# Load the model
+model_path = 'ad_model.pkl'  # Replace with the actual path
+model = None
+
+try:
+    if os.path.isfile(model_path):
+        model = joblib.load(model_path)
+        st.success("Model loaded successfully!")
+    else:
+        st.error(f"Model file not found: {model_path}")
+except Exception as e:
+    st.error(f"Error loading the model: {e}")
+
+# Input from user
+daily_time_spent_on_site = st.number_input("Daily Time Spent on Site", value=68.5)
+encoded_age_group = st.number_input("Encoded Age Group", value=1)
+input_data = np.array([[daily_time_spent_on_site, encoded_age_group]])
+
 if st.sidebar.button("Predict"):
-    # Encode gender as binary
-    gender_binary = 1 if gender == "Male" else 0
-
-    # Encode age into an age group
-    encoded_age_group = findAgeGroup(age)
-
-    # Define model path
-    model_path = 'ad_model.pkl'  # Replace with the actual path
-    model = None
-    
-    # Load the model
-    try:
-        if os.path.isfile(model_path):
-            model = joblib.load(model_path)
-            print("Model loaded successfully!")
-        else:
-            raise FileNotFoundError(f"Model file not found: {model_path}")
-    except Exception as e:
-        print(f"Error loading the model: {e}")
-        model = None
-    
-    # Prepare input data
-    daily_time_spent_on_site = 68.5  # Example input
-    encoded_age_group = 1  # Example input
-    input_data = np.array([[daily_time_spent_on_site, encoded_age_group]])
-    print("Input data for prediction:", input_data)
-    
-    # Make predictions if model is loaded
     if model is not None:
         try:
             prediction = model.predict(input_data)
-            print("Prediction successful:", prediction)
+            st.success(f"Prediction: {prediction[0]}")  # Assuming it's a binary classification
         except Exception as e:
-            print(f"Error during prediction: {e}")
+            st.error(f"Error during prediction: {e}")
     else:
-        print("Model is not defined. Cannot make predictions.")
+        st.error("Model is not defined. Cannot make predictions.")
+    
 
-    # Create input data for prediction
-    input_data = np.array([[daily_time_spent_on_site, encoded_age_group, area_income, daily_internet_usage, gender_binary]])
-
-    # Display result
-    if prediction[0] == 1:
-        st.success(f"The user is likely to click on the next ad. 🎯")
+# Conditional logic based on the prediction
+if prediction is not None:
+    if prediction[0] == 1:  # Assuming prediction[0] is the output
+        st.write("The user is predicted to click the ad.")
     else:
-        st.error(f"The user is unlikely to click on the next ad. ❌")
+        st.write("The user is not predicted to click the ad.")

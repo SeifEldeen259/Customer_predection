@@ -41,16 +41,34 @@ if st.sidebar.button("Predict"):
     encoded_age_group = findAgeGroup(age)
 
     # Define model path
-    model_path = 'Customer_predection/Customer_predection/ad_model.pkl'  # Use the full absolute path to the file
+    model_path = 'ad_model.pkl'  # Replace with the actual path
     
+    # Load the model
     try:
-        # Load the model
-        model = joblib.load(model_path)
-        print("Model loaded successfully!")
-    except FileNotFoundError:
-        print(f"File not found: {model_path}")
+        if os.path.isfile(model_path):
+            model = joblib.load(model_path)
+            print("Model loaded successfully!")
+        else:
+            raise FileNotFoundError(f"Model file not found: {model_path}")
     except Exception as e:
         print(f"Error loading the model: {e}")
+        model = None
+    
+    # Prepare input data
+    daily_time_spent_on_site = 68.5  # Example input
+    encoded_age_group = 1  # Example input
+    input_data = np.array([[daily_time_spent_on_site, encoded_age_group]])
+    print("Input data for prediction:", input_data)
+    
+    # Make predictions if model is loaded
+    if model is not None:
+        try:
+            prediction = model.predict(input_data)
+            print("Prediction successful:", prediction)
+        except Exception as e:
+            print(f"Error during prediction: {e}")
+    else:
+        print("Model is not defined. Cannot make predictions.")
 
     # Create input data for prediction
     input_data = np.array([[daily_time_spent_on_site, encoded_age_group, area_income, daily_internet_usage, gender_binary]])

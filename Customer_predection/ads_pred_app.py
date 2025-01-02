@@ -60,11 +60,6 @@ if os.path.exists(model_local_path):
     except Exception as e:
         st.error(f"Error loading the model: {e}")
 
-# Input data
-daily_time_spent_on_site = st.number_input("Daily Time Spent on Site", value=68.5)
-encoded_age_group = st.number_input("Encoded Age Group", value=1)
-input_data = np.array([[daily_time_spent_on_site, encoded_age_group]])
-
 # Make predictions
 if st.button("Predict"):
     if model is not None:

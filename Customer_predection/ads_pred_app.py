@@ -41,7 +41,7 @@ if st.sidebar.button("Predict"):
     encoded_age_group = findAgeGroup(age)
 
     # Load the trained model
-    model = joblib.load('https://github.com/SeifEldeen259/Customer_predection/raw/refs/heads/main/Customer_predection/ads_model.pkl')
+    model = joblib.load('ads_model.pkl')
 
     # Create input data for prediction
     input_data = np.array([[daily_time_spent_on_site, encoded_age_group, area_income, daily_internet_usage, gender_binary]])

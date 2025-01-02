@@ -52,5 +52,8 @@ if st.sidebar.button("Predict"):
     # Display result
     if prediction[0] == 1:
         st.success(f"The user is likely to click on the next ad. 🎯")
-    else:
+    elif prediction[0] == -1:
         st.error(f"The user is unlikely to click on the next ad. ❌")
+    else:
+        st.warning("Unexpected prediction output.")
+

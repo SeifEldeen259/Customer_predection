@@ -42,14 +42,19 @@ if st.sidebar.button("Predict"):
 
     # Load the trained model
     # Set the model path
-    model_path = os.path.join(os.getcwd(), 'ad_click_model.pkl')
 
+    # Check the current working directory
+    print("Current Working Directory:", os.getcwd())
+    
     # Check if the model file exists
+    model_path = os.path.join(os.getcwd(), 'ad_click_model.pkl')
+    print("Expected Model Path:", model_path)
+    
     if not os.path.isfile(model_path):
-        raise FileNotFoundError(f"Model file not found: {model_path}")
+        print("File does not exist at this path.")
+    else:
+        print("File exists.")
 
-    # Load the model
-    model = joblib.load(model_path)
     
     # Create input data for prediction
     input_data = np.array([[daily_time_spent_on_site, encoded_age_group, area_income, daily_internet_usage, gender_binary]])

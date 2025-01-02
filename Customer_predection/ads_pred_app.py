@@ -73,9 +73,6 @@ if st.sidebar.button("Predict"):
     # Create input data for prediction
     input_data = np.array([[daily_time_spent_on_site, encoded_age_group, area_income, daily_internet_usage, gender_binary]])
 
-    # Make prediction
-    prediction = model.predict(input_data)
-
     # Display result
     if prediction[0] == 1:
         st.success(f"The user is likely to click on the next ad. 🎯")

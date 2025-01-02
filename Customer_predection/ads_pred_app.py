@@ -40,22 +40,8 @@ if st.sidebar.button("Predict"):
     # Encode age into an age group
     encoded_age_group = findAgeGroup(age)
 
-    # Load the trained model
-    # Set the model path
+    model = joblib.load('ad_click_model.pkl')
 
-    # Check the current working directory
-    print("Current Working Directory:", os.getcwd())
-    
-    # Check if the model file exists
-    model_path = os.path.join(os.getcwd(), 'ad_click_model.pkl')
-    print("Expected Model Path:", model_path)
-    
-    if not os.path.isfile(model_path):
-        print("File does not exist at this path.")
-    else:
-        print("File exists.")
-
-    
     # Create input data for prediction
     input_data = np.array([[daily_time_spent_on_site, encoded_age_group, area_income, daily_internet_usage, gender_binary]])
 

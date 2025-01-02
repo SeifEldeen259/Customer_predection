@@ -40,7 +40,7 @@ if st.sidebar.button("Predict"):
     # Encode age into an age group
     encoded_age_group = findAgeGroup(age)
 
-    model = joblib.load('ad_click_model.pkl')
+    model = joblib.load("ad_click_model.pkl")
 
     # Create input data for prediction
     input_data = np.array([[daily_time_spent_on_site, encoded_age_group, area_income, daily_internet_usage, gender_binary]])

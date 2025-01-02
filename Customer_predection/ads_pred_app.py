@@ -61,7 +61,7 @@ if os.path.exists(model_local_path):
         st.error(f"Error loading the model: {e}")
 
 # Make predictions
-if st.button("Predict"):
+if st.sidebar.button("Predict"):
     if model is not None:
         try:
             prediction = model.predict(input_data)

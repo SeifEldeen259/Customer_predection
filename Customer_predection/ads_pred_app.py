@@ -3,7 +3,6 @@ import numpy as np
 import joblib
 import warnings
 warnings.filterwarnings('ignore')
-import sklearn
 import os
 from PIL import Image
 
@@ -17,12 +16,22 @@ st.text("Predict whether a user will click on the next ad based on their data.")
 
 # Function to encode age into age groups
 def findAgeGroup(Age):
-    if Age >= 19 and Age < 35:
+    if Age >= 19 and Age < 25:
         return 1
-    elif Age >= 35 and Age < 50:
+    elif Age >= 25 and Age < 31:
         return 2
-    else:
+    elif Age >= 31 and Age < 36:
         return 3
+    elif Age >= 36 and Age < 41:
+        return 4
+    elif Age >= 41 and Age < 46:
+        return 5
+    elif Age >= 46 and Age < 51:
+        return 6
+    elif Age >= 51 and Age < 56:
+        return 7
+    else:
+        return 8
 
 # Sidebar Inputs
 st.sidebar.image('https://github.com/SeifEldeen259/Customer_predection/blob/main/Customer_predection/ads.png?raw=true')
@@ -42,7 +51,7 @@ if st.sidebar.button("Predict"):
     encoded_age_group = findAgeGroup(age)
 
     # Load the trained model
-    model = joblib.load('ads_model.pkl')
+    model = joblib.load('ad_model.pkl')
 
     # Create input data for prediction
     input_data = np.array([[daily_time_spent_on_site, encoded_age_group, area_income, daily_internet_usage, gender_binary]])

@@ -5,6 +5,7 @@ import warnings
 warnings.filterwarnings('ignore')
 import os
 from PIL import Image
+import requests
 
 # Page Settings
 st.set_page_config(page_title="Ad Click Prediction App", layout="centered", page_icon="📈")
@@ -32,25 +33,49 @@ area_income = st.sidebar.number_input('Area Income (average income of the user�
 daily_internet_usage = st.sidebar.slider('Daily Internet Usage (minutes):', 0.0, 1000.0, step=0.1, value=200.0)
 gender = st.sidebar.radio('Gender:', ['Male', 'Female'])
 
-# Predict Button
-if st.sidebar.button("Predict"):
-    # Encode gender as binary
-    gender_binary = 1 if gender == "Male" else 0
+model_url = "https://github.com/SeifEldeen259/Customer_predection/raw/refs/heads/main/Customer_predection/ad_model.pkl"
+model_local_path = "ad_model.pkl"
 
-    # Encode age into an age group
-    encoded_age_group = findAgeGroup(age)
+# Download the model if it doesn't exist locally
+if not os.path.exists(model_local_path):
+    try:
+        st.info("Downloading the model...")
+        response = requests.get(model_url)
+        response.raise_for_status()  # Raise an exception for HTTP errors
+        with open(model_local_path, "wb") as f:
+            f.write(response.content)
+        st.success("Model downloaded successfully!")
+    except Exception as e:
+        st.error(f"Failed to download the model: {e}")
+        model = None
+else:
+    st.info("Model file already exists locally.")
 
-    # Load the trained model
-    model = joblib.load('https://github.com/SeifEldeen259/Customer_predection/raw/refs/heads/main/Customer_predection/ad_model.pkl')
+# Load the model
+model = None
+if os.path.exists(model_local_path):
+    try:
+        model = joblib.load(model_local_path)
+        st.success("Model loaded successfully!")
+    except Exception as e:
+        st.error(f"Error loading the model: {e}")
 
-    # Create input data for prediction
-    input_data = np.array([[daily_time_spent_on_site, encoded_age_group, area_income, daily_internet_usage, gender_binary]])
+# Input data
+daily_time_spent_on_site = st.number_input("Daily Time Spent on Site", value=68.5)
+encoded_age_group = st.number_input("Encoded Age Group", value=1)
+input_data = np.array([[daily_time_spent_on_site, encoded_age_group]])
 
-    # Make prediction
-    prediction = model.predict(input_data)
-
-    # Display result
-    if prediction[0] == 1:
-        st.success(f"The user is likely to click on the next ad. 🎯")
+# Make predictions
+if st.button("Predict"):
+    if model is not None:
+        try:
+            prediction = model.predict(input_data)
+            st.success(f"Prediction: {prediction[0]}")  # Assuming binary classification
+            if prediction[0] == 1:
+                st.write("The user is predicted to click the ad.")
+            else:
+                st.write("The user is not predicted to click the ad.")
+        except Exception as e:
+            st.error(f"Error during prediction: {e}")
     else:
-        st.error(f"The user is unlikely to click on the next ad. ❌")
+        st.error("Model is not defined. Cannot make predictions.")

@@ -9,6 +9,8 @@ from PIL import Image
 # Page Settings
 st.set_page_config(page_title="Ad Click Prediction App", layout="centered", page_icon="📈")
 
+prediction = None
+
 # App Header
 st.image("https://github.com/SeifEldeen259/Customer_predection/blob/main/Customer_predection/ads_logo.png?raw=true", caption="Ad Click Prediction",use_container_width=True)
 st.markdown("# 📊 Ad Click Prediction")
@@ -42,6 +44,7 @@ if st.sidebar.button("Predict"):
 
     # Define model path
     model_path = 'ad_model.pkl'  # Replace with the actual path
+    model = None
     
     # Load the model
     try:

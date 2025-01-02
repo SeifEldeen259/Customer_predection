@@ -41,9 +41,14 @@ if st.sidebar.button("Predict"):
     encoded_age_group = findAgeGroup(age)
 
     # Load the trained model
+    # Set the model path
     model_path = os.path.join(os.getcwd(), 'ad_click_model.pkl')
-    if not os.path.exists(model_path):
-        raise FileNotFoundError(f"Model file not found at {model_path}")
+
+    # Check if the model file exists
+    if not os.path.isfile(model_path):
+        raise FileNotFoundError(f"Model file not found: {model_path}")
+
+    # Load the model
     model = joblib.load(model_path)
     
     # Create input data for prediction
